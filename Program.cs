@@ -1,5 +1,5 @@
 ﻿using System;
-using AoC2017.classes;
+using Advent_of_Code_2017.classes;
 
 namespace AoC2017
 {
@@ -13,6 +13,10 @@ namespace AoC2017
 
                 displayResult("DayOne - First", DayOne.getResult(out timeElapsed).ToString(), timeElapsed.ToString());
                 displayResult("DayOne - Second", DayOne.getResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+
+
+                displayResult("Daytwo - First", DayTwo.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                //displayResult("DayOne - Second", DayOne.getResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
