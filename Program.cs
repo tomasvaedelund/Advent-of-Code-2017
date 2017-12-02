@@ -16,7 +16,7 @@ namespace AoC2017
 
 
                 displayResult("Daytwo - First", DayTwo.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                //displayResult("DayOne - Second", DayOne.getResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                displayResult("Daytwo - Second", DayTwo.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }

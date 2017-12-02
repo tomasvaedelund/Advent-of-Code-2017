@@ -11,7 +11,7 @@ namespace Advent_of_Code_2017.classes
             var result = 0;
 
             var data = "5\t1\t9\t5\r\n7\t5\t3\r\n2\t4\t6\t8";
-            
+
             Debug.Assert(SplitAndCalculateTotalChecksum(data) == 18);
 
             data = Helpers.getDataFromFile("daytwo.txt");
@@ -22,7 +22,23 @@ namespace Advent_of_Code_2017.classes
             return result;
         }
 
-        public static int SplitAndCalculateTotalChecksum(string data)
+        public static int GetResultTwo(out long timeElapsed)
+        {
+            var result = 0;
+
+            var data = "5\t9\t2\t8\r\n9\t4\t7\t3\r\n3\t8\t6\t5";
+
+            Debug.Assert(SplitAndCalculateTotalChecksum(data, true) == 9);
+
+            data = Helpers.getDataFromFile("daytwo.txt");
+            var stopWatch = Stopwatch.StartNew();
+            result = SplitAndCalculateTotalChecksum(data, true);
+            timeElapsed = stopWatch.ElapsedMilliseconds;
+
+            return result;
+        }
+
+        public static int SplitAndCalculateTotalChecksum(string data, bool secondStar = false)
         {
             var checksum = 0;
             var lines = data.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
@@ -30,7 +46,15 @@ namespace Advent_of_Code_2017.classes
             foreach (var line in lines)
             {
                 var lineArray = line.Split('\t').Select(n => Convert.ToInt32(n)).ToArray();
-                checksum += CalculateChecksum(lineArray);
+
+                if (secondStar)
+                {
+                    checksum += CalculateChecksumTwo(lineArray);
+                }
+                else
+                {
+                    checksum += CalculateChecksum(lineArray);
+                }
             }
 
             return checksum;
@@ -48,6 +72,34 @@ namespace Advent_of_Code_2017.classes
             }
 
             return max - min;
+        }
+
+        public static int CalculateChecksumTwo(int[] lineArray)
+        {
+            var min = Int32.MaxValue;
+            var max = Int32.MinValue;
+
+            for (int i = 0; i < lineArray.Length; i++)
+            {
+                for (int j = i + 1; j < lineArray.Length; j++)
+                {
+                    max = lineArray[j];
+                    min = lineArray[i];
+
+                    if (lineArray[i] > lineArray[j])
+                    {
+                        max = lineArray[i];
+                        min = lineArray[j];
+                    }
+
+                    if (max % min == 0)
+                    {
+                        return max / min;
+                    }
+                }
+            }
+
+            throw new Exception("No numbers match the rules");
         }
     }
 }
