@@ -23,6 +23,22 @@ namespace Advent_of_Code_2017.classes
             return result;
         }
 
+        public static int GetResultTwo(out long timeElapsed)
+        {
+            var result = 0;
+
+            Debug.Assert(getFirstValueThatIsLargerThanInput(1) == 2);
+            Debug.Assert(getFirstValueThatIsLargerThanInput(9) == 10);
+            Debug.Assert(getFirstValueThatIsLargerThanInput(147) == 304);
+            Debug.Assert(getFirstValueThatIsLargerThanInput(747) == 806);
+
+            var stopWatch = Stopwatch.StartNew();
+            result = getFirstValueThatIsLargerThanInput(312051);
+            timeElapsed = stopWatch.ElapsedMilliseconds;
+
+            return result;
+        }
+
         private static int calculateDistanceToOrigo(int position)
         {
             var matrix = getMatrix(position);
@@ -30,6 +46,14 @@ namespace Advent_of_Code_2017.classes
             var result = (0 - final.Item1) + (0 - final.Item2);
 
             return Math.Abs(result);
+        }
+
+        private static int getFirstValueThatIsLargerThanInput(int max)
+        {
+            var matrix = getMatrixTwo(max);
+            var final = matrix.Last().Item3;
+
+            return final;
         }
 
         private static IEnumerable<Tuple<int, int>> getMatrix(int length)
@@ -45,13 +69,13 @@ namespace Advent_of_Code_2017.classes
             {
                 while (2 * x * d < m)
                 {
-                    result.Add(new Tuple <int, int>(x, y));
+                    result.Add(new Tuple<int, int>(x, y));
                     x = x + d;
                 }
 
                 while (2 * y * d < m)
                 {
-                    result.Add(new Tuple <int, int>(x, y));
+                    result.Add(new Tuple<int, int>(x, y));
                     y = y + d;
                 }
 
@@ -60,6 +84,63 @@ namespace Advent_of_Code_2017.classes
             }
 
             return result;
+        }
+
+        private static IEnumerable<Tuple<int, int, int>> getMatrixTwo(int max)
+        {
+            var result = new List<Tuple<int, int, int>>();
+
+            var x = 0;
+            var y = 0;
+            var d = 1;
+            var m = 1;
+            var value = 0;
+
+            while (value <= max)
+            {
+
+                while (2 * x * d < m && value <= max)
+                {
+                    value = getAdjacentSumForPos(result, x, y);
+                    result.Add(new Tuple<int, int, int>(x, y, value));
+                    x = x + d;
+                }
+
+                while (2 * y * d < m && value <= max)
+                {
+                    value = getAdjacentSumForPos(result, x, y);
+                    result.Add(new Tuple<int, int, int>(x, y, value));
+                    y = y + d;
+                }
+
+                d = -1 * d;
+                m = m + 1;
+            }
+
+            return result;
+        }
+
+        private static int getAdjacentSumForPos(IEnumerable<Tuple<int, int, int>> matrix, int x, int y)
+        {
+            var sum = 0;
+
+            sum += getValueFromPos(matrix, x + 1, y);
+            sum += getValueFromPos(matrix, x + 1, y + 1);
+            sum += getValueFromPos(matrix, x, y + 1);
+            sum += getValueFromPos(matrix, x - 1, y + 1);
+            sum += getValueFromPos(matrix, x - 1, y);
+            sum += getValueFromPos(matrix, x - 1, y - 1);
+            sum += getValueFromPos(matrix, x, y - 1);
+            sum += getValueFromPos(matrix, x + 1, y - 1);
+
+            return (sum == 0) ? 1 : sum;
+        }
+
+        private static int getValueFromPos(IEnumerable<Tuple<int, int, int>> matrix, int x, int y)
+        {
+            var item = matrix.FirstOrDefault(pos => pos.Item1 == x && pos.Item2 == y);
+
+            return (item == null) ? 0 : item.Item3;
         }
     }
 }
