@@ -21,20 +21,38 @@ namespace Advent_of_Code_2017.classes
             return result;
         }
 
-        private static int calulateValidPassphrases(string data)
+        public static int GetResultTwo(out long timeElapsed)
+        {
+            Debug.Assert(isPassphraseValidTwo("abcde fghij") == true);
+            Debug.Assert(isPassphraseValidTwo("abcde xyz ecdab") == false);
+            Debug.Assert(isPassphraseValidTwo("a ab abc abd abf abj") == true);
+            Debug.Assert(isPassphraseValidTwo("iiii oiii ooii oooi oooo") == true);
+            Debug.Assert(isPassphraseValidTwo("oiii ioii iioi iiio") == false);
+
+            var result = 0;
+            var data = Helpers.getDataFromFile("dayfour.txt");
+            var stopWatch = Stopwatch.StartNew();
+            result = calulateValidPassphrases(data, true);
+            timeElapsed = stopWatch.ElapsedMilliseconds;
+
+            return result;
+        }
+
+        private static int calulateValidPassphrases(string data, bool isTwo = false)
         {
             var passphrases = data.Split("\r\n");
 
-            var numValidPassphrases = passphrases.Where(x => isPassphraseValid(x)).Count();
+            var numValidPassphrases = (isTwo) ? passphrases.Where(x => isPassphraseValidTwo(x)).Count() : passphrases.Where(x => isPassphraseValid(x)).Count();
 
             return numValidPassphrases;
         }
 
         private static bool isPassphraseValid(string passphrase)
         {
-            var grouped = getPassphraseArray(passphrase)
+            var phrases = getPassphraseArray(passphrase);
+            var grouped = phrases
             .GroupBy(x => x)
-            .Select(x => new 
+            .Select(x => new
             {
                 word = x.Key,
                 cnt = x.Count()
@@ -42,7 +60,21 @@ namespace Advent_of_Code_2017.classes
 
             return !grouped.Any(x => x.cnt > 1);
         }
-        
+
+        private static bool isPassphraseValidTwo(string passphrase)
+        {
+            var phrases = getPassphraseArray(passphrase);
+            var grouped = phrases
+            .GroupBy(x => string.Join("", x.OrderBy(y => y)))
+            .Select(x => new
+            {
+                word = x.Key,
+                cnt = x.Count()
+            });
+
+            return !grouped.Any(x => x.cnt > 1);
+        }
+
         private static string[] getPassphraseArray(string passphrase)
         {
             return passphrase.Split(' ');
