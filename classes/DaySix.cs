@@ -22,18 +22,18 @@ namespace Advent_of_Code_2017.classes
 
         public static int GetResultTwo(out long timeElapsed)
         {
-            //Debug.Assert(getStepsNeeded("0\r\n3\r\n0\r\n1\r\n-3") == 5);
+            Debug.Assert(getStepsNeeded("0\t2\t7\t0", true) == 4);
 
             var result = 0;
-            var data = Helpers.getDataFromFile("dayfive.txt");
+            var data = Helpers.getDataFromFile("daysix.txt");
             var stopWatch = Stopwatch.StartNew();
-            //result = getStepsNeeded(data);
+            result = getStepsNeeded(data, true);
             timeElapsed = stopWatch.ElapsedMilliseconds;
 
             return result;
         }
 
-        private static int getStepsNeeded(string data)
+        private static int getStepsNeeded(string data, bool second = false)
         {
             var steps = 0;
             var array = data.Split('\t').Select(x => Convert.ToInt32(x)).ToArray();
@@ -41,8 +41,6 @@ namespace Advent_of_Code_2017.classes
 
             while (true)
             {
-                steps++;
-
                 var posOfMaxElement = getPosOfMaxElement(array);
                 var valueOfMaxElement = array[posOfMaxElement];
                 array[posOfMaxElement] = 0;
@@ -51,7 +49,14 @@ namespace Advent_of_Code_2017.classes
 
                 if (arrays.Any(x => x.SequenceEqual(array)))
                 {
-                    break;
+                    if (second && steps++ == 0)
+                    {
+                        arrays = new List<int[]>();
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
 
                 var copy = new int[array.Length];
@@ -59,7 +64,7 @@ namespace Advent_of_Code_2017.classes
                 arrays.Add(copy);
             }
 
-            return steps;
+            return (second) ? arrays.Count : arrays.Count + 1;
         }
 
         private static int[] addMaxValueToAllElements(int max, int[] array, int pos)
