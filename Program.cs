@@ -26,6 +26,9 @@ namespace AoC2017
                 displayResult("DayFive - First", DayFive.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
                 displayResult("DayFive - Second", DayFive.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
+                displayResult("DaySix - First", DaySix.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                displayResult("DaySix - Second", DaySix.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
 
