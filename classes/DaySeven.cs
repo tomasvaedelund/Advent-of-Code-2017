@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Advent_of_Code_2017.classes
 {
@@ -70,7 +72,6 @@ namespace Advent_of_Code_2017.classes
             return nameOfBottomProgram;
         }
 
-        List<Program> Programs = new List<Program>();
         private static int getMissingWeight(string data)
         {
             var nameOfBottomProgram = GetNameOfBottomProgram(data);
@@ -80,23 +81,72 @@ namespace Advent_of_Code_2017.classes
 
             rootProgram.Children = GetChildren(rootProgram, dataRows);
 
+            var result = GetAdjustedValue(rootProgram);
+
             return 0;
+        }
+
+        private static int GetAdjustedValue(Program program)
+        {
+            // var sum = program
+            //     .Children
+            //     .First()
+            //     .ChildrensWeight;
+
+            // var num = program
+            //     .Children
+            //     .Count(x => x.ChildrensWeight == sum);
+
+            // if (num == program.Children.Count)
+            // {
+            //     return 0;
+            // }
+
+            // var child = program
+            // .Children
+            // .GroupBy(x => x.ChildrensWeight)
+            // .Select(x => new
+            // {
+            //     key = x.Key,
+            //     cnt = x.Count()
+            // })
+            // .OrderBy(x => x.cnt)
+            // .Single();
+
+            return 0;
+
         }
 
         private static List<Program> GetChildren(Program parent, string[] dataRows)
         {
             var children = new List<Program>();
+
             foreach (var child in parent.ChildrenNames)
             {
                 var current = dataRows.Single(x => x.StartsWith(child));
                 var currentProgram = CastToProgram(current);
 
                 currentProgram.Parent = parent;
+                currentProgram.Level = parent.Level + 1;
                 currentProgram.Children = GetChildren(currentProgram, dataRows);
+
+                currentProgram.ChildrensWeight = currentProgram.Weight;
+
+                currentProgram.ChildrensWeight += currentProgram
+                    .Children
+                    .Sum(x => x.ChildrensWeight);
 
                 children.Add(currentProgram);
             }
+
             return children;
+        }
+
+        private static int GetWeight(string program)
+        {
+            var weight = Regex.Match(program, @"\(([^)]*)\)").Groups[1].Value;
+
+            return Convert.ToInt32(weight);
         }
 
         private static Program CastToProgram(string program)
@@ -104,6 +154,7 @@ namespace Advent_of_Code_2017.classes
             var rowArray = program.Split("->");
             var name = rowArray[0].Split(' ')[0].Trim();
             var childrenNames = new List<string>();
+            var weight = GetWeight(rowArray[0]);
 
             if (rowArray.Length > 1)
             {
@@ -118,7 +169,8 @@ namespace Advent_of_Code_2017.classes
             {
                 Name = name,
                 ChildrenNames = childrenNames,
-                Children = new List<Program>()
+                Children = new List<Program>(),
+                Weight = weight
             };
         }
 
@@ -129,6 +181,8 @@ namespace Advent_of_Code_2017.classes
             public List<Program> Children { get; set; }
             public List<string> ChildrenNames { get; set; }
             public int Weight { get; set; }
+            public int Level { get; set; }
+            public int ChildrensWeight { get; set; }
         }
     }
 }
