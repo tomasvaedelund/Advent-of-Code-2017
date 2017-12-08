@@ -39,10 +39,15 @@ namespace Advent_of_Code_2017.classes
             var result = "";
             var data = Helpers.getDataFromFile("dayeight.txt");
             var stopWatch = Stopwatch.StartNew();
-            result = DecodeAllInstructions(data).ToString();
+            result = DecodeAllInstructionsTwo().ToString();
             timeElapsed = stopWatch.ElapsedMilliseconds;
 
             return result;
+        }
+
+        private static int DecodeAllInstructionsTwo()
+        {
+            return MaxValue;
         }
 
         private static Dictionary<string, int> Instructions = new Dictionary<string, int>();
@@ -65,6 +70,7 @@ namespace Advent_of_Code_2017.classes
             return result;
         }
 
+        private static int MaxValue = Int32.MinValue;
         private static void DecodeInstruction(string instruction)
         {
             var insArray = instruction.Split(' ');
@@ -100,6 +106,8 @@ namespace Advent_of_Code_2017.classes
                 }
             }
 
+            var maxValue = Instructions.GetValueOrDefault(target);
+            MaxValue = (maxValue > MaxValue) ? maxValue : MaxValue;
         }
 
         private static bool IsInstructionValid(string source, string comparer, int condition)
