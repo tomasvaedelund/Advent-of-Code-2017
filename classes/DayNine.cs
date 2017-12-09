@@ -31,23 +31,32 @@ namespace Advent_of_Code_2017.classes
 
         public static string GetResultTwo(out long timeElapsed)
         {
-            //Debug.Assert(GetNameOfBottomProgram(testData) == "tknk");
+            Debug.Assert(GetScore("{<>}", true) == 0);
+            Debug.Assert(GetScore("{{{}<random characters>}}", true) == 17);
+            Debug.Assert(GetScore("{{},{<<<<>}}", true) == 3);
+            Debug.Assert(GetScore("{{{},{},{{<{!>}>}}}}", true) == 2);
+            Debug.Assert(GetScore("{<a>,<a>,<a>,<a>}", true) == 4);
+            Debug.Assert(GetScore("{{<ab>},{<ab>},{<ab>},{<ab>}}", true) == 8);
+            Debug.Assert(GetScore("{{<!!>},{<!!>},{<!!>},{<!!>}}", true) == 0);
+            Debug.Assert(GetScore("{{{}},{<!!!>>}}", true) == 0);
 
             var result = "";
-            var data = Helpers.getDataFromFile("dayeight.txt");
+            var data = Helpers.getDataFromFile("daynine.txt");
             var stopWatch = Stopwatch.StartNew();
-            //result = DecodeAllInstructionsTwo().ToString();
+            Debug.Assert(GetScore(data) == 8337);
+            result = GetScore(data, true).ToString();
             timeElapsed = stopWatch.ElapsedMilliseconds;
 
             return result;
         }
 
-        private static int GetScore(string data)
+        private static int GetScore(string data, bool countGarbageChars = false)
         {
             var level = 0;
             var score = 0;
             var skip = false;
             var garbage = false;
+            var garbageChars = 0;
 
             for (int i = 0; i < data.Length; i++)
             {
@@ -64,12 +73,16 @@ namespace Advent_of_Code_2017.classes
                     if (c == '!')
                     {
                         skip = true;
-                    }
-                    else if (c == '>')
-                    {
-                        garbage = false;
+                        continue;
                     }
 
+                    if (c == '>')
+                    {
+                        garbage = false;
+                        continue;
+                    }
+
+                    garbageChars++;
                     continue;
                 }
 
@@ -90,7 +103,7 @@ namespace Advent_of_Code_2017.classes
                 }
             }
 
-            return score;
+            return (countGarbageChars) ? garbageChars : score;
         }
     }
 }
