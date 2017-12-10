@@ -11,32 +11,32 @@ namespace AoC2017
             {
                 var timeElapsed = 0L;
 
-                // displayResult("DayOne - First", Day1.getResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                // displayResult("DayOne - Second", Day1.getResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day1 - First", Day1.getResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day1 - Second", Day1.getResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
-                // displayResult("Daytwo - First", Day2.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                // displayResult("Daytwo - Second", Day2.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day2 - First", Day2.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day2 - Second", Day2.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
-                // displayResult("DayThree - First", Day3.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                // displayResult("DayThree - Second", Day3.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day3 - First", Day3.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day3 - Second", Day3.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
-                // displayResult("DayFour - First", Day4.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                // displayResult("DayFour - Second", Day4.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day4 - First", Day4.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day4 - Second", Day4.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
-                // displayResult("DayFive - First", Day5.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                // displayResult("DayFive - Second", Day5.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day5 - First", Day5.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day5 - Second", Day5.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
-                // displayResult("DaySix - First", Day6.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                // displayResult("DaySix - Second", Day6.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day6 - First", Day6.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day6 - Second", Day6.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
-                // displayResult("DaySeven - First", Day7.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                // displayResult("DaySeven - Second", Day7.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day7 - First", Day7.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day7 - Second", Day7.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
-                // displayResult("DayEight - First", Day8.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                // displayResult("DayEight - Second", Day8.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day8 - First", Day8.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day8 - Second", Day8.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
-                // displayResult("DayNine - First", Day9.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                // displayResult("DayNine - Second", Day9.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day9 - First", Day9.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("Day9 - Second", Day9.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
                 // displayResult("Day 10 - First", Day10.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
                 // displayResult("Day 10 - Second", Day10.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
