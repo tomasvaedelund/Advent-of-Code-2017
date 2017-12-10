@@ -39,7 +39,7 @@ namespace AoC2017
                 // displayResult("DayNine - Second", DayNine.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
                 displayResult("Day 10 - First", Day10.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                //displayResult("Day 10 - Second", Day10.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                displayResult("Day 10 - Second", Day10.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }

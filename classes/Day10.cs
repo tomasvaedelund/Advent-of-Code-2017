@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace Advent_of_Code_2017.classes
 {
@@ -42,6 +43,23 @@ namespace Advent_of_Code_2017.classes
             return result;
         }
 
+        public static string GetResultTwo(out long timeElapsed)
+        {
+            Debug.Assert(DenseHash(new int[] { 65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22 }).SequenceEqual(new int[] {64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}));
+
+            Debug.Assert(GetResultTwo(256, "") == "a2582a3a0e66e6e86e3812dcb672a272");
+            Debug.Assert(GetResultTwo(256, "AoC 2017") == "33efeb34ea91902bb2f59c9920caa6cd");
+            Debug.Assert(GetResultTwo(256, "1,2,3") == "3efbe78a8d82f29979031a4aa0b16a9d");
+            Debug.Assert(GetResultTwo(256, "1,2,4") == "63960835bcdc130f0b66d7ff4f6a5a8e");
+
+            var result = "";
+            var stopWatch = Stopwatch.StartNew();
+            result = GetResultTwo(256, "129,154,49,198,200,133,97,254,41,6,2,1,255,0,191,108");
+            timeElapsed = stopWatch.ElapsedMilliseconds;
+
+            return result;
+        }
+
         private static int GetResult(int size, int[] lengths)
         {
             var list = GetList(size);
@@ -60,6 +78,69 @@ namespace Advent_of_Code_2017.classes
             }
 
             return list[0] * list[1];
+        }
+
+        private static string GetResultTwo(int size, string stringToHash)
+        {
+            var list = GetList(size);
+            stringToHash = stringToHash.Trim();
+
+            var bytes = Encoding.ASCII.GetBytes(stringToHash).Select(x => Convert.ToInt32(x)).ToList();
+            bytes.Add(17);
+            bytes.Add(31);
+            bytes.Add(73);
+            bytes.Add(47);
+            bytes.Add(23);
+
+            var bytesArray = bytes.ToArray();
+
+            var index = 0;
+            var skip = 0;
+            for (int j = 0; j < 64; j++)
+            {
+                for (int i = 0; i < bytesArray.Length; i++)
+                {
+                    var length = bytesArray[i];
+
+                    if (length > 1)
+                    {
+                        list = GetListWithReversedSublist(list, index, length);
+                    }
+
+                    index = (index + length + skip) % size;
+                    skip++;
+                }
+            }
+
+            var denseHash = DenseHash(list);
+            var result = new string[16];
+
+            for (int i = 0; i < denseHash.Length; i++)
+            {
+                result[i] = denseHash[i].ToString("X2");
+            }
+
+            return string.Join("", result).ToLower();
+        }
+
+        private static int[] DenseHash(int[] byteArray)
+        {
+            var result = new int[16];
+            var size = byteArray.Length;
+
+            var hash = 0;
+            for (int i = 0; i < size; i += 16)
+            {
+                hash = byteArray[i];
+                for (int j = i + 1; j < i + 16; j++)
+                {
+                    hash ^= byteArray[j];
+                }
+
+                result[i/16] = hash;
+            }
+
+            return result;
         }
 
         private static int[] GetList(int size)
