@@ -35,8 +35,11 @@ namespace AoC2017
                 // displayResult("DayEight - First", DayEight.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
                 // displayResult("DayEight - Second", DayEight.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
-                displayResult("DayNine - First", DayNine.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
-                displayResult("DayNine - Second", DayNine.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("DayNine - First", DayNine.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                // displayResult("DayNine - Second", DayNine.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
+
+                displayResult("Day 10 - First", Day10.GetResult(out timeElapsed).ToString(), timeElapsed.ToString());
+                //displayResult("Day 10 - Second", Day10.GetResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
 
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
