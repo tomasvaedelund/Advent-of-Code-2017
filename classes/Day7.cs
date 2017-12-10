@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Advent_of_Code_2017.classes
 {
-    public class DaySeven
+    public class Day7
     {
         public static string GetResult(out long timeElapsed)
         {

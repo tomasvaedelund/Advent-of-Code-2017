@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Advent_of_Code_2017.classes
 {
-    public static class DayTwo
+    public static class Day2
     {
         public static int GetResult(out long timeElapsed)
         {

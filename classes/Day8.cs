@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Advent_of_Code_2017.classes
 {
-    public static class DayEight
+    public static class Day8
     {
         public static string GetResult(out long timeElapsed)
         {
