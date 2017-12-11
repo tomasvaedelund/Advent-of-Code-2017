@@ -1,20 +1,68 @@
+using System;
 using System.Diagnostics;
 
 namespace Advent_of_Code_2017.classes
 {
     public class Day11
     {
-        public static string GetResult(out long timeElapsed)
+        public static int GetResult(out long timeElapsed)
         {
-            //Debug.Assert(GetScore("{{<a>},{<a>},{<a>},{<a>}}") == 9);
+            Debug.Assert(GetNumberOfSteps("ne,ne,ne") == 3);
+            Debug.Assert(GetNumberOfSteps("ne,ne,sw,sw") == 0);
+            Debug.Assert(GetNumberOfSteps("ne,ne,s,s") == 2);
+            Debug.Assert(GetNumberOfSteps("se,sw,se,sw,sw") == 3);
 
-            var result = "";
-            //var data = Helpers.getDataFromFile("daynine.txt");
+            var result = 0;
+            var data = Helpers.getDataFromFile("day11.txt");
             var stopWatch = Stopwatch.StartNew();
-            //result = GetScore(data).ToString();
+            result = GetNumberOfSteps(data);
             timeElapsed = stopWatch.ElapsedMilliseconds;
 
             return result;
+        }
+
+        private static int GetNumberOfSteps(string data)
+        {
+            var array = data.Split(',');
+
+            var endPoint = GetEndPoint(array);
+
+            var numberOfSteps = Math.Abs(0 - endPoint.Item1) + Math.Abs(0 - endPoint.Item2) + Math.Abs(0 - endPoint.Item3);
+
+            return numberOfSteps / 2;
+        }
+
+        private static Tuple<int, int, int> GetEndPoint(string[] array)
+        {
+            var currentPos = Tuple.Create(0, 0, 0);
+
+            foreach (var move in array)
+            {
+                currentPos = GetNextPoint(currentPos, move);
+            }
+
+            return currentPos;
+        }
+
+        private static Tuple<int, int, int> GetNextPoint(Tuple<int, int, int> point, string movement)
+        {
+            switch (movement)
+            {
+                case "n":
+                    return Tuple.Create(point.Item1 + 1, point.Item2, point.Item3 - 1);                
+                case "ne":
+                    return Tuple.Create(point.Item1, point.Item2 + 1, point.Item3 - 1);                
+                case "nw":
+                    return Tuple.Create(point.Item1 + 1, point.Item2 - 1, point.Item3);                
+                case "s":
+                    return Tuple.Create(point.Item1 - 1, point.Item2, point.Item3 + 1);                
+                case "se":
+                    return Tuple.Create(point.Item1 - 1, point.Item2 + 1, point.Item3);                
+                case "sw":
+                    return Tuple.Create(point.Item1, point.Item2 - 1, point.Item3 + 1);                
+                default:
+                    throw new ArgumentException($"Unkonwn movement: {movement}");
+            }   
         }
     }
 }
