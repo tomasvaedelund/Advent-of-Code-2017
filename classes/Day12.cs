@@ -21,6 +21,17 @@ namespace Advent_of_Code_2017.classes
             return result;
         }
 
+        public static int GetResultTwo(out long timeElapsed)
+        {
+            var result = 0;
+            var data = Helpers.getDataFromFile("day12.txt");
+            var stopWatch = Stopwatch.StartNew();
+            result = GetResultTwo(data);
+            timeElapsed = stopWatch.ElapsedMilliseconds;
+
+            return result;
+        }
+
         private static int GetResult(string data)
         {
             var array = data.Split("\r\n");
@@ -29,6 +40,27 @@ namespace Advent_of_Code_2017.classes
             var numberOfConnectedPrograms = GetNumberOfConnectedPrograms(0, array, programs);
 
             return numberOfConnectedPrograms.Count;
+        }
+
+        private static int GetResultTwo(string data)
+        {
+            var array = data.Split("\r\n");
+            var programs = new List<int>();
+
+            var numberOfConnectedPrograms = GetNumberOfConnectedPrograms(0, array, programs);
+            var numberOfGroups = 1;
+
+            foreach (var row in array)
+            {
+                var currentId = Convert.ToInt32(row.Split("<->")[0].Trim());
+                if (!numberOfConnectedPrograms.Contains(currentId))
+                {
+                    numberOfConnectedPrograms = GetNumberOfConnectedPrograms(currentId, array, numberOfConnectedPrograms);
+                    numberOfGroups++;
+                }
+            }
+
+            return numberOfGroups;
         }
 
         private static List<int> GetNumberOfConnectedPrograms(int id, string[] array, List<int> programs)
