@@ -21,6 +21,20 @@ namespace Advent_of_Code_2017.classes
             return result;
         }
 
+        public static int GetResultTwo(out long timeElapsed)
+        {
+            var data = Helpers.getDataFromFile("day13-test.txt");
+            Debug.Assert(GetResultTwo(data) == 10);
+
+            var result = 0;
+            data = Helpers.getDataFromFile("day13.txt");
+            var stopWatch = Stopwatch.StartNew();
+            result = GetResultTwo(data);
+            timeElapsed = stopWatch.ElapsedMilliseconds;
+
+            return result;
+        }
+
         private static int GetResult(string data)
         {
             var firewall = InitFirewall(data);
@@ -30,105 +44,80 @@ namespace Advent_of_Code_2017.classes
             return result;
         }
 
-        private static List<List<char>> InitFirewall(string data)
+        private static int GetResultTwo(string data)
+        {
+            var result = GetOptimalDelay(data);
+
+            return result;
+        }
+
+        private static List<int> InitFirewall(string data)
         {
             var layers = data.Split("\r\n");
-            var firewall = new List<List<char>>();
+            var firewall = new List<int>();
 
             var layerCount = 0;
             foreach (var layer in layers)
             {
-                var layerNum = Convert.ToInt32(layer.Split(':')[0]);
-                var depth = Convert.ToInt32(layer.Split(':')[1].Trim());
+                var depth = Convert.ToInt32(layer.Split(':')[0]);
+                var range = Convert.ToInt32(layer.Split(':')[1].Trim());
 
-                while (layerCount < layerNum)
+                while (layerCount < depth)
                 {
-                    firewall.Add(InitLayer(0));
+                    firewall.Add(0);
                     layerCount++;
                 }
 
-                firewall.Add(InitLayer(depth));
+                firewall.Add(range);
                 layerCount++;
             }
 
             return firewall;
         }
 
-        private static List<char> InitLayer(int depth)
-        {
-            var layer = new List<char>(depth);
-
-            if (depth > 0)
-            {
-                layer.Add('S');
-
-                for (int i = 1; i < depth; i++)
-                {
-                    layer.Add('\0');
-                }
-            }
-
-            return layer;
-        }
-
-        private static int GetSeverity(List<List<char>> firewall)
+        private static int GetSeverity(List<int> firewall, bool second = false)
         {
             var severity = 0;
 
-            for (int packetPos = 0; packetPos < firewall.Count; packetPos++)
+            for (int i = 0; i < firewall.Count; i++)
             {
-                if (firewall[packetPos].Any() && (firewall[packetPos][0] == 'S' || firewall[packetPos][0] == 'T'))
+                if (firewall[i] > 0 && i % (firewall[i] * 2 - 2) == 0)
                 {
-                    severity += packetPos * firewall[packetPos].Count;
+                    severity += i * firewall[i];
                 }
-
-                firewall = MoveScanner(firewall);
             }
 
             return severity;
         }
 
-        private static List<List<char>> MoveScanner(List<List<char>> firewall)
+        private static int GetOptimalDelay(string data)
         {
-            for (int j = 0; j < firewall.Count; j++)
+            var delay = 0;
+            var firewall = InitFirewall(data);
+
+            while (true)
             {
-                var layer = firewall[j];
+                var caught = false;
 
-                for (int i = 0; i < layer.Count; i++)
+                for (int i = 0; i < firewall.Count; i++)
                 {
-                    // At bottom, turn
-                    if (i == layer.Count - 1 && layer[i] == 'S')
+                    if (firewall[i] > 0 && (i + delay) % (firewall[i] * 2 - 2) == 0)
                     {
-                        layer[i] = '\0';
-                        layer[i - 1] = 'T';
-                        break;
-                    }
-
-                    // At top, turn
-                    if (i == 0 && layer[i] == 'T')
-                    {
-                        layer[i] = '\0';
-                        layer[i + 1] = 'S';
-                        break;
-                    }
-
-                    // Not at top or bottom, just move
-                    if (layer[i] == 'S')
-                    {
-                        layer[i] = '\0';
-                        layer[i + 1] = 'S';
-                        break;
-                    }
-                    else if (layer[i] == 'T')
-                    {
-                        layer[i] = '\0';
-                        layer[i - 1] = 'T';
+                        caught = true;
                         break;
                     }
                 }
+
+                if (!caught)
+                {
+                    break;
+                }
+
+                delay++;
             }
 
-            return firewall;
+            return delay;
         }
+
     }
 }
