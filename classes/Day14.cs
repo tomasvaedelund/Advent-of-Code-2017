@@ -20,17 +20,22 @@ namespace Advent_of_Code_2017.classes
             return result;
         }
 
+        public static int GetResultTwo(out long timeElapsed)
+        {
+            //Debug.Assert(GetResult(data) == 24);
+
+            var result = 0;
+            var stopWatch = Stopwatch.StartNew();
+            result = GetNumberOfGroups("vbqugkhl");
+            timeElapsed = stopWatch.ElapsedMilliseconds;
+
+            return result;
+        }
+
         private static int GetNumberOfUsedSquares(string data)
         {
             var result = 0;
-            var disc = new List<string>();
-
-            for (int i = 0; i < 128; i++)
-            {
-                var rowHex = HashString(256, $"{data}-{i}");
-                var rowBin = HexToBinary(rowHex);
-                disc.Add(rowBin);
-            }
+            var disc = GetDisc(data);
 
             foreach (var row in disc)
             {
@@ -38,6 +43,97 @@ namespace Advent_of_Code_2017.classes
             }
 
             return result;
+        }
+
+        private static int GetNumberOfGroups(string data)
+        {
+            var result = 0;
+            var disc = GetDisc(data);
+            var relations = new List<string>();
+
+            for (int row = 0; row < 128; row++)
+            {
+                for (int col = 0; col < 128; col++)
+                {
+                    var current = disc[row][col];
+                    if (current == 49)
+                    {
+                        var relation = CheckAdjecentCells(row, col, disc);
+
+                        if (relation.Any())
+                        {
+                            relations.Add($"{(row * 128) + col} <-> {string.Join(',', relation)}");
+                        }
+                        else
+                        {
+                            // Because even singles count
+                            result += 1;
+                        }
+                    }
+                }
+            }
+
+            result += GetNumberOfGroupsFromRelations(string.Join("\r\n", relations));
+
+            return result;
+        }
+
+        private static List<int> CheckAdjecentCells(int row, int col, int[][] disc)
+        {
+            var current = (row * 128) + col;
+            var relation = new List<int>();
+
+            // Check up
+            if (row > 0)
+            {
+                if (disc[row - 1][col] == 49)
+                {
+                    relation.Add(((row - 1) * 128) + col);
+                }
+            }
+
+            // Check down
+            if (row < 127)
+            {
+                if (disc[row + 1][col] == 49)
+                {
+                    relation.Add(((row + 1) * 128) + col);
+                }
+            }
+
+            // Check left
+            if (col > 0)
+            {
+                if (disc[row][col - 1] == 49)
+                {
+                    relation.Add((row * 128) + col - 1);
+                }
+            }
+
+            // Check right
+            if (col < 127)
+            {
+                if (disc[row][col + 1] == 49)
+                {
+                    relation.Add((row * 128) + col + 1);
+                }
+            }
+
+            return relation;
+        }
+
+        private static int[][] GetDisc(string data)
+        {
+            var disc = new int[128][];
+
+            for (int i = 0; i < 128; i++)
+            {
+                var rowHex = HashString(256, $"{data}-{i}");
+                var rowBin = HexToBinary(rowHex);
+                disc[i] = rowBin.Select(c => Convert.ToInt32(c)).ToArray();
+            }
+
+            return disc;
         }
 
         private static string HexToBinary(string hexstring)
@@ -148,6 +244,51 @@ namespace Advent_of_Code_2017.classes
             }
 
             return list;
+        }
+
+        private static int GetNumberOfGroupsFromRelations(string data)
+        {
+            var array = data.Split("\r\n");
+            var programs = new List<int>();
+
+            var numberOfConnectedPrograms = GetNumberOfConnectedPrograms(0, array, programs);
+            var numberOfGroups = 1;
+
+            foreach (var row in array)
+            {
+                var currentId = Convert.ToInt32(row.Split("<->")[0].Trim());
+                if (!numberOfConnectedPrograms.Contains(currentId))
+                {
+                    numberOfConnectedPrograms = GetNumberOfConnectedPrograms(currentId, array, numberOfConnectedPrograms);
+                    numberOfGroups++;
+                }
+            }
+
+            return numberOfGroups;
+        }
+
+        private static List<int> GetNumberOfConnectedPrograms(int id, string[] array, List<int> programs)
+        {
+            if (!programs.Any(x => x == id))
+            {
+                programs.Add(id);
+            }
+
+            var current = array.FirstOrDefault(x => x.StartsWith($"{id} <->"));
+            var children = (current.Split("<->").Length > 1) ? current.Split("<->")[1] : "";
+            var childrenIds = children.Split(',').Select(x => Convert.ToInt32(x.Trim()));
+
+            foreach (var childId in childrenIds)
+            {
+                if (programs.Contains(childId))
+                {
+                    continue;
+                }
+
+                programs = GetNumberOfConnectedPrograms(childId, array, programs);
+            }
+
+            return programs;
         }
     }
 }
