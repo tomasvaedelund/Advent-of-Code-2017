@@ -15,7 +15,7 @@ namespace Advent_of_Code_2017.classes
             Debug.Assert(GetNewOrder("eabdc", "pe/b") == "baedc");
 
             var result = "";
-            var data = Helpers.getDataFromFile("day16.txt");
+            var data = Helpers.GetDataFromFile("day16.txt");
             var stopWatch = Stopwatch.StartNew();
             result = GetNewOrderFromASetOfMoves("abcdefghijklmnop", data);
             timeElapsed = stopWatch.ElapsedMilliseconds;
@@ -30,7 +30,7 @@ namespace Advent_of_Code_2017.classes
             Debug.Assert(GetNewOrder("cbade", "pe/b") == "ceadb");
 
             var result = "";
-            var data = Helpers.getDataFromFile("day16.txt");
+            var data = Helpers.GetDataFromFile("day16.txt");
             var stopWatch = Stopwatch.StartNew();
             //result = GetNewOrderFromASetOfMoves("namdgkbhifpceloj", data, 1000000000);
             // Pattern repeats every 60 iterations, 1000000000 % 60 = 40, and we dont't want the last one so 39...

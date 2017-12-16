@@ -24,7 +24,7 @@ namespace Advent_of_Code_2017.classes
             Instructions = new Dictionary<string, int>();
 
             var result = "";
-            var data = Helpers.getDataFromFile("dayeight.txt");
+            var data = Helpers.GetDataFromFile("dayeight.txt");
             var stopWatch = Stopwatch.StartNew();
             result = DecodeAllInstructions(data).ToString();
             timeElapsed = stopWatch.ElapsedMilliseconds;
@@ -37,7 +37,7 @@ namespace Advent_of_Code_2017.classes
             //Debug.Assert(GetNameOfBottomProgram(testData) == "tknk");
 
             var result = "";
-            var data = Helpers.getDataFromFile("dayeight.txt");
+            var data = Helpers.GetDataFromFile("dayeight.txt");
             var stopWatch = Stopwatch.StartNew();
             result = DecodeAllInstructionsTwo().ToString();
             timeElapsed = stopWatch.ElapsedMilliseconds;

@@ -11,7 +11,7 @@ namespace Advent_of_Code_2017.classes
             Debug.Assert(getStepsNeeded("0\r\n3\r\n0\r\n1\r\n-3") == 5);
 
             var result = 0;
-            var data = Helpers.getDataFromFile("dayfive.txt");
+            var data = Helpers.GetDataFromFile("dayfive.txt");
             var stopWatch = Stopwatch.StartNew();
             result = getStepsNeeded(data);
             timeElapsed = stopWatch.ElapsedMilliseconds;
@@ -24,7 +24,7 @@ namespace Advent_of_Code_2017.classes
             Debug.Assert(getStepsNeededTwo("0\r\n3\r\n0\r\n1\r\n-3") == 10);
 
             var result = 0;
-            var data = Helpers.getDataFromFile("dayfive.txt");
+            var data = Helpers.GetDataFromFile("dayfive.txt");
             var stopWatch = Stopwatch.StartNew();
             result = getStepsNeededTwo(data);
             timeElapsed = stopWatch.ElapsedMilliseconds;

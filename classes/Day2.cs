@@ -14,7 +14,7 @@ namespace Advent_of_Code_2017.classes
 
             Debug.Assert(SplitAndCalculateTotalChecksum(data) == 18);
 
-            data = Helpers.getDataFromFile("daytwo.txt");
+            data = Helpers.GetDataFromFile("daytwo.txt");
             var stopWatch = Stopwatch.StartNew();
             result = SplitAndCalculateTotalChecksum(data);
             timeElapsed = stopWatch.ElapsedMilliseconds;
@@ -30,7 +30,7 @@ namespace Advent_of_Code_2017.classes
 
             Debug.Assert(SplitAndCalculateTotalChecksum(data, true) == 9);
 
-            data = Helpers.getDataFromFile("daytwo.txt");
+            data = Helpers.GetDataFromFile("daytwo.txt");
             var stopWatch = Stopwatch.StartNew();
             result = SplitAndCalculateTotalChecksum(data, true);
             timeElapsed = stopWatch.ElapsedMilliseconds;

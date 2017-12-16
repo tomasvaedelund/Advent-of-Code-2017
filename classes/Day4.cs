@@ -13,7 +13,7 @@ namespace Advent_of_Code_2017.classes
             Debug.Assert(isPassphraseValid("aa bb cc dd aaa") == true);
 
             var result = 0;
-            var data = Helpers.getDataFromFile("dayfour.txt");
+            var data = Helpers.GetDataFromFile("dayfour.txt");
             var stopWatch = Stopwatch.StartNew();
             result = calulateValidPassphrases(data);
             timeElapsed = stopWatch.ElapsedMilliseconds;
@@ -30,7 +30,7 @@ namespace Advent_of_Code_2017.classes
             Debug.Assert(isPassphraseValidTwo("oiii ioii iioi iiio") == false);
 
             var result = 0;
-            var data = Helpers.getDataFromFile("dayfour.txt");
+            var data = Helpers.GetDataFromFile("dayfour.txt");
             var stopWatch = Stopwatch.StartNew();
             result = calulateValidPassphrases(data, true);
             timeElapsed = stopWatch.ElapsedMilliseconds;

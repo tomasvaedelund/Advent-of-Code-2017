@@ -10,11 +10,11 @@ namespace Advent_of_Code_2017.classes
     {
         public static string GetResult(out long timeElapsed)
         {
-            var testData = Helpers.getDataFromFile("dayseven-test.txt");
+            var testData = Helpers.GetDataFromFile("dayseven-test.txt");
             Debug.Assert(GetNameOfBottomProgram(testData) == "tknk");
 
             var result = "";
-            var data = Helpers.getDataFromFile("dayseven.txt");
+            var data = Helpers.GetDataFromFile("dayseven.txt");
             var stopWatch = Stopwatch.StartNew();
             result = GetNameOfBottomProgram(data);
             timeElapsed = stopWatch.ElapsedMilliseconds;
@@ -25,7 +25,7 @@ namespace Advent_of_Code_2017.classes
         public static int GetResultTwo(out long timeElapsed)
         {
             var result = 0;
-            var data = Helpers.getDataFromFile("dayseven.txt");
+            var data = Helpers.GetDataFromFile("dayseven.txt");
 
             Debug.Assert(GetNameOfBottomProgram(data) == "dtacyn");
 

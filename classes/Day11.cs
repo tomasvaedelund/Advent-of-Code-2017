@@ -13,7 +13,7 @@ namespace Advent_of_Code_2017.classes
             Debug.Assert(GetNumberOfSteps("se,sw,se,sw,sw") == 3);
 
             var result = 0;
-            var data = Helpers.getDataFromFile("day11.txt");
+            var data = Helpers.GetDataFromFile("day11.txt");
             var stopWatch = Stopwatch.StartNew();
             result = GetNumberOfSteps(data);
             timeElapsed = stopWatch.ElapsedMilliseconds;
