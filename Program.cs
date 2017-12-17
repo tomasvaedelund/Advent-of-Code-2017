@@ -9,7 +9,7 @@ namespace AoC2017
         {
             do
             {
-                var timeElapsed = 0L;
+                //var timeElapsed = 0L;
 
                 // displayResult("Day1 - First", Day1.getResult(out timeElapsed).ToString(), timeElapsed.ToString());
                 // displayResult("Day1 - Second", Day1.getResultTwo(out timeElapsed).ToString(), timeElapsed.ToString());
