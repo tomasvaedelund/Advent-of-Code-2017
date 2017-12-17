@@ -29,10 +29,9 @@ namespace Advent_of_Code_2017.classes
             return contents;
         }
 
-        public static void DisplayDailyResult(int day, string first, string second, long timeFirst, long timeSecond)
+        public static void DisplayDailyResult(string day, string result, long timeElapsed)
         {
-            Console.WriteLine($"Day {day} - first result: {first}, in {timeFirst}ms");
-            Console.WriteLine($"Day {day} - second result: {second}, in {timeSecond}ms");
+            Console.WriteLine($"Day {day}: {result} - in {timeElapsed}ms");
         }
     }
 }

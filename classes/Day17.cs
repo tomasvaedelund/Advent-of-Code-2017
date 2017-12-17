@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -7,26 +8,20 @@ namespace Advent_of_Code_2017.classes
     {
         public static void GetResult()
         {
-            Debug.Assert(GetValueAfterLastInsert(3) == 638);
+            Debug.Assert(GetValueAfterLastInsert(3) == "638");
 
-            //var data = Helpers.GetDataFromFile("day16.txt");
-            var resultFirst = "";
-            var resultSecond = "";
-            var timeFirst = 0L;
-            var timeSecond = 0L;
+            var result = "";
 
             var stopWatch = Stopwatch.StartNew();
-            resultFirst = GetValueAfterLastInsert(363).ToString();
-            timeFirst = stopWatch.ElapsedMilliseconds;
+            result = GetValueAfterLastInsert(363);
+            Helpers.DisplayDailyResult("17 - 1", result, stopWatch.ElapsedMilliseconds);
 
             stopWatch = Stopwatch.StartNew();
-            //resultSecond = GetSecondResult();
-            timeSecond = stopWatch.ElapsedMilliseconds;
-
-            Helpers.DisplayDailyResult(17, resultFirst, resultSecond, timeFirst, timeSecond);
+            result = GetValueAfterLastInsertTwo(363);
+            Helpers.DisplayDailyResult("17 - 2", result, stopWatch.ElapsedMilliseconds);
         }
 
-        private static int GetValueAfterLastInsert(int steps)
+        private static string GetValueAfterLastInsert(int steps)
         {
             var spinlock = new List<int>(2018) { 0 };
             var current = 0;
@@ -34,12 +29,12 @@ namespace Advent_of_Code_2017.classes
             for (int i = 1; i < 2018; i++)
             {
                 // Get new position
-                current = (steps + current) % spinlock.Count;
-                
+                current = (steps + current) % i;
+
                 // We want the position after
                 current += 1;
 
-                if (current >= spinlock.Count)
+                if (current >= i)
                 {
                     spinlock.Add(i);
                 }
@@ -49,7 +44,30 @@ namespace Advent_of_Code_2017.classes
                 }
             }
 
-            return spinlock[current + 1];
+            return spinlock[current + 1].ToString();
+        }
+
+        private static string GetValueAfterLastInsertTwo(int steps)
+        {
+            var spinlock = new List<int>(50000000) { 0 };
+            var current = 0;
+            var result = 0;
+
+            for (int i = 1; i < 50000000; i++)
+            {
+                // Get new position
+                current = (steps + current) % i;
+                
+                // We want the position after
+                current += 1;
+
+                if (current == 1)
+                {
+                    result = i;
+                }
+            }
+
+            return result.ToString();
         }
     }
 }
