@@ -19,12 +19,9 @@ namespace Advent_of_Code_2017.classes
             var stopWatch = Stopwatch.StartNew();
             result = GetValueOfRecoveredFrequency(data).ToString();
             Helpers.DisplayDailyResult("18 - 1", result, stopWatch.ElapsedMilliseconds);
-
-            stopWatch = Stopwatch.StartNew();
-            //result = GetValueAfterLastInsertTwo(363);
-            Helpers.DisplayDailyResult("18 - 2", result, stopWatch.ElapsedMilliseconds);
         }
 
+        private static int iterations = 0; 
         private static long GetValueOfRecoveredFrequency(string data)
         {
             var commands = data.Split("\r\n").Select(x => x.Split(' '));
@@ -43,6 +40,8 @@ namespace Advent_of_Code_2017.classes
                 {
                     break;
                 }
+
+                iterations += 1;
             }
 
             return lastPlayedSoundSaved;
@@ -116,7 +115,7 @@ namespace Advent_of_Code_2017.classes
                 return result;
             }
 
-            throw new ArgumentException("Cuuld not find a value");
+            throw new ArgumentException("Could not find a value");
         }
 
         private static long GetTabletValue(Dictionary<char, long> tablet, char register)

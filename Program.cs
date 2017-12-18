@@ -7,8 +7,8 @@ namespace AoC2017
     {
         static void Main(string[] args)
         {
-            do
-            {
+            // do
+            // {
                 //var timeElapsed = 0L;
 
                 // displayResult("Day1 - First", Day1.getResult(out timeElapsed).ToString(), timeElapsed.ToString());
@@ -62,8 +62,9 @@ namespace AoC2017
                 // Day17.GetResult();
 
                 Day18.GetResult();
+                Day18Second.GetResult();
 
-            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+            // } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
 
         private static void displayResult(string title, string result, string timeElapsed)
