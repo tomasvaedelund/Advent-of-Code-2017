@@ -9,14 +9,17 @@ namespace Advent_of_Code_2017.classes
         {
             var data = Helpers.GetDataFromFile("day19-test.txt");
             Debug.Assert(GetLettersFoundInMaze(data) == "ABCDEF");
+            Debug.Assert(StepsTaken == 38);
 
             var result = "";
 
             data = Helpers.GetDataFromFile("day19.txt");
             FoundLetters = "";
+            StepsTaken = 0;
             var stopWatch = Stopwatch.StartNew();
             result = GetLettersFoundInMaze(data);
             Helpers.DisplayDailyResult("19 - 1", result, stopWatch.ElapsedMilliseconds);
+            Helpers.DisplayDailyResult("19 - 2", StepsTaken.ToString(), stopWatch.ElapsedMilliseconds);
             stopWatch.Stop();
         }
 
@@ -54,6 +57,7 @@ namespace Advent_of_Code_2017.classes
         }
 
         private static string FoundLetters = "";
+        private static int StepsTaken = 0;
 
         public static string GetLettersFoundInMaze(string data)
         {
@@ -109,6 +113,7 @@ namespace Advent_of_Code_2017.classes
                 }
 
                 currentChar = Diagram[y, x];
+                StepsTaken++;
             }
 
             var newDirection = GetNewDirection(y, x, direction);
@@ -118,6 +123,7 @@ namespace Advent_of_Code_2017.classes
             x = (newDirection == 90) ? x + 1 : x;
             x = (newDirection == 270) ? x - 1 : x;
 
+            StepsTaken++;
             Move(y, x, newDirection);
         }
 
@@ -144,14 +150,14 @@ namespace Advent_of_Code_2017.classes
                 case 180:
                     if (Diagram[y, x - 1] == '|' || Diagram[y, x - 1] == ' ' || Diagram[y, x - 1] == '+')
                     {
-                        return 90;                        
+                        return 90;
                     }
                     return 270;
                 case 90:
                 case 270:
                     if (Diagram[y - 1, x] == '-' || Diagram[y - 1, x] == ' ' || Diagram[y - 1, x] == '+')
                     {
-                        return 180;                        
+                        return 180;
                     }
                     return 0;
                 default:
