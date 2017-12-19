@@ -16,14 +16,18 @@ namespace Advent_of_Code_2017.classes
             data = Helpers.GetDataFromFile("day19.txt");
             FoundLetters = "";
             StepsTaken = 0;
+
             var stopWatch = Stopwatch.StartNew();
             result = GetLettersFoundInMaze(data);
             Helpers.DisplayDailyResult("19 - 1", result, stopWatch.ElapsedMilliseconds);
+
+            stopWatch = Stopwatch.StartNew();
             Helpers.DisplayDailyResult("19 - 2", StepsTaken.ToString(), stopWatch.ElapsedMilliseconds);
-            stopWatch.Stop();
         }
 
         private static char[,] Diagram;
+        private static string FoundLetters = "";
+        private static int StepsTaken = 0;
 
         private static char[,] GenerateDiagram(string data)
         {
@@ -55,9 +59,6 @@ namespace Advent_of_Code_2017.classes
 
             throw new Exception("No startpoint was found");
         }
-
-        private static string FoundLetters = "";
-        private static int StepsTaken = 0;
 
         public static string GetLettersFoundInMaze(string data)
         {

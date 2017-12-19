@@ -7,36 +7,28 @@ namespace Advent_of_Code_2017.classes
 {
     public class Day3
     {
-        public static int GetResult(out long timeElapsed)
+        public static void GetResult()
         {
-            var result = 0;
-
             Debug.Assert(calculateDistanceToOrigo(1) == 0);
             Debug.Assert(calculateDistanceToOrigo(12) == 3);
             Debug.Assert(calculateDistanceToOrigo(23) == 2);
             //Debug.Assert(calculateDistanceToOrigo(1024) == 31);
 
+            var result = "";
             var stopWatch = Stopwatch.StartNew();
-            result = calculateDistanceToOrigo(312051);
-            timeElapsed = stopWatch.ElapsedMilliseconds;
-
-            return result;
-        }
-
-        public static int GetResultTwo(out long timeElapsed)
-        {
-            var result = 0;
+            result = calculateDistanceToOrigo(312051).ToString();
+            stopWatch.Stop();
+            Helpers.DisplayDailyResult("3 - 1", result, stopWatch.ElapsedMilliseconds);
 
             Debug.Assert(getFirstValueThatIsLargerThanInput(1) == 2);
             Debug.Assert(getFirstValueThatIsLargerThanInput(9) == 10);
             Debug.Assert(getFirstValueThatIsLargerThanInput(147) == 304);
             Debug.Assert(getFirstValueThatIsLargerThanInput(747) == 806);
 
-            var stopWatch = Stopwatch.StartNew();
-            result = getFirstValueThatIsLargerThanInput(312051);
-            timeElapsed = stopWatch.ElapsedMilliseconds;
-
-            return result;
+            stopWatch = Stopwatch.StartNew();
+            result = getFirstValueThatIsLargerThanInput(312051).ToString();
+            stopWatch.Stop();
+            Helpers.DisplayDailyResult("3 - 2", result, stopWatch.ElapsedMilliseconds);
         }
 
         private static int calculateDistanceToOrigo(int position)

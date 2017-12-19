@@ -24,7 +24,7 @@ namespace Advent_of_Code_2017.classes
             Instructions = new Dictionary<string, int>();
 
             var result = "";
-            var data = Helpers.GetDataFromFile("dayeight.txt");
+            var data = Helpers.GetDataFromFile("day8.txt");
             var stopWatch = Stopwatch.StartNew();
             result = DecodeAllInstructions(data).ToString();
             timeElapsed = stopWatch.ElapsedMilliseconds;

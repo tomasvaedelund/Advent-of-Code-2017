@@ -21,7 +21,7 @@ namespace Advent_of_Code_2017.classes
             Debug.Assert(GetScore("{{<a>},{<a>},{<a>},{<a>}}") == 9);
 
             var result = "";
-            var data = Helpers.GetDataFromFile("daynine.txt");
+            var data = Helpers.GetDataFromFile("day9.txt");
             var stopWatch = Stopwatch.StartNew();
             result = GetScore(data).ToString();
             timeElapsed = stopWatch.ElapsedMilliseconds;
@@ -41,7 +41,7 @@ namespace Advent_of_Code_2017.classes
             Debug.Assert(GetScore("{{{}},{<!!!>>}}", true) == 0);
 
             var result = "";
-            var data = Helpers.GetDataFromFile("daynine.txt");
+            var data = Helpers.GetDataFromFile("day9.txt");
             var stopWatch = Stopwatch.StartNew();
             Debug.Assert(GetScore(data) == 8337);
             result = GetScore(data, true).ToString();

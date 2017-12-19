@@ -6,36 +6,25 @@ namespace Advent_of_Code_2017.classes
 {
     public static class Day2
     {
-        public static int GetResult(out long timeElapsed)
+        public static void GetResult()
         {
-            var result = 0;
+            var testData = "5\t1\t9\t5\r\n7\t5\t3\r\n2\t4\t6\t8";
+            Debug.Assert(SplitAndCalculateTotalChecksum(testData) == 18);
 
-            var data = "5\t1\t9\t5\r\n7\t5\t3\r\n2\t4\t6\t8";
-
-            Debug.Assert(SplitAndCalculateTotalChecksum(data) == 18);
-
-            data = Helpers.GetDataFromFile("daytwo.txt");
+            var data = Helpers.GetDataFromFile("day2.txt");
+            var result = "";
             var stopWatch = Stopwatch.StartNew();
-            result = SplitAndCalculateTotalChecksum(data);
-            timeElapsed = stopWatch.ElapsedMilliseconds;
+            result = SplitAndCalculateTotalChecksum(data).ToString();
+            stopWatch.Stop();
+            Helpers.DisplayDailyResult("2 - 1", result, stopWatch.ElapsedMilliseconds);
 
-            return result;
-        }
+            testData = "5\t9\t2\t8\r\n9\t4\t7\t3\r\n3\t8\t6\t5";
+            Debug.Assert(SplitAndCalculateTotalChecksum(testData, true) == 9);
 
-        public static int GetResultTwo(out long timeElapsed)
-        {
-            var result = 0;
-
-            var data = "5\t9\t2\t8\r\n9\t4\t7\t3\r\n3\t8\t6\t5";
-
-            Debug.Assert(SplitAndCalculateTotalChecksum(data, true) == 9);
-
-            data = Helpers.GetDataFromFile("daytwo.txt");
-            var stopWatch = Stopwatch.StartNew();
-            result = SplitAndCalculateTotalChecksum(data, true);
-            timeElapsed = stopWatch.ElapsedMilliseconds;
-
-            return result;
+            stopWatch = Stopwatch.StartNew();
+            result = SplitAndCalculateTotalChecksum(data, true).ToString();
+            stopWatch.Stop();
+            Helpers.DisplayDailyResult("2 - 2", result, stopWatch.ElapsedMilliseconds);
         }
 
         public static int SplitAndCalculateTotalChecksum(string data, bool secondStar = false)
