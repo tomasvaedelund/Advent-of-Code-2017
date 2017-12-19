@@ -61,8 +61,10 @@ namespace AoC2017
 
                 // Day17.GetResult();
 
-                Day18.GetResult();
-                Day18Second.GetResult();
+                // Day18.GetResult();
+                // Day18Second.GetResult();
+
+                Day19.GetResult();
 
             // } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
