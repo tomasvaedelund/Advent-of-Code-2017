@@ -21,7 +21,7 @@ namespace Advent_of_Code_2017.classes
             Helpers.DisplayDailyResult("20 - 1", result, stopWatch.ElapsedMilliseconds);
 
             stopWatch = Stopwatch.StartNew();
-            //result = GetLettersFoundInMaze(data);
+            result = GetNumerOfUnCollidedParticles(data).ToString();
             stopWatch.Stop();
             Helpers.DisplayDailyResult("20 - 2", result, stopWatch.ElapsedMilliseconds);
         }
@@ -43,6 +43,43 @@ namespace Advent_of_Code_2017.classes
             var closestParticle = GetClosestParticle(particles);
 
             return closestParticle.Id;
+        }
+
+        private static int GetNumerOfUnCollidedParticles(string data)
+        {
+            var particles = GetParticleList(data);
+
+            var ticks = 0;
+
+            while (ticks++ < 1000)
+            {
+                foreach (var particle in particles)
+                {
+                    particle.UpdatePosition();
+                }
+
+                particles = RemoveCollidedParticles(particles);
+            }
+
+            return particles.Count;
+        }
+
+        private static List<Particle> RemoveCollidedParticles(List<Particle> particles)
+        {
+            var uncollidedParticles = new List<Particle>();
+
+            var particleGroups = particles
+                .GroupBy(x => x.Position);
+
+            foreach (var particleGroup in particleGroups)
+            {
+                if (particleGroup.Count() == 1)
+                {
+                    uncollidedParticles.Add(particleGroup.First());
+                }
+            }
+
+            return uncollidedParticles;
         }
 
         private static Particle GetClosestParticle(List<Particle> particles)
