@@ -58,7 +58,7 @@ namespace AoC2017
             // Day20.GetResult();
 
             Day22.GetResult();
-            Day22Second.GetResult();
+            //Day22Second.GetResult();
         }
 
         private static void displayResult(string title, string result, string timeElapsed)

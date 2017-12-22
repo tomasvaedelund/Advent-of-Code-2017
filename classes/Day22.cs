@@ -21,12 +21,23 @@ namespace Advent_of_Code_2017.classes
             result = GetNumberOfBurstsThatCauseInfection(10000, data).ToString();
             stopWatch.Stop();
             Helpers.DisplayDailyResult("22 - 1", result, stopWatch.ElapsedMilliseconds);
+
+            data = "..#\r\n#..\r\n...";
+            Debug.Assert(GetNumberOfBurstsThatCauseInfection(100, data, true) == 26);
+            Debug.Assert(GetNumberOfBurstsThatCauseInfection(10000000, data, true) == 2511944);
+
+            data = Helpers.GetDataFromFile("day22.txt");
+
+            stopWatch = Stopwatch.StartNew();
+            result = GetNumberOfBurstsThatCauseInfection(10000000, data, true).ToString();
+            stopWatch.Stop();
+            Helpers.DisplayDailyResult("22 - 2", result, stopWatch.ElapsedMilliseconds);
         }
 
         private static (int x, int y, int direction, int causedInfections) Carrier;
         private static IEnumerable<string> Grid;
 
-        private static int GetNumberOfBurstsThatCauseInfection(int bursts, string data)
+        private static int GetNumberOfBurstsThatCauseInfection(int bursts, string data, bool second = false)
         {
             Grid = ToGrid(data);
             var startPos = Grid.GetStartPos();
@@ -35,23 +46,21 @@ namespace Advent_of_Code_2017.classes
 
             while (bursts-- > 0)
             {
-                PerformBurst();
+                PerformBurst(second);
             }
 
             return Carrier.causedInfections;
         }
 
-        private static void PerformBurst()
+        private static void PerformBurst(bool second)
         {
-            if (Grid.IsCurrentPosInfected())
+            if (second)
             {
-                Carrier.direction += 90;
-                Grid.CleanCurrentPos();
+                UpdateAndTurnSecond();
             }
             else
             {
-                Carrier.direction -= 90;
-                Grid.InfectCurrentPos();
+                UpdateAndTurn();
             }
 
             if (Carrier.direction < 0)
@@ -80,6 +89,47 @@ namespace Advent_of_Code_2017.classes
             if (Grid.IsOutOfBounds())
             {
                 Grid = Grid.Expand();
+            }
+        }
+
+        private static void UpdateAndTurn()
+        {
+            if (Grid.IsCurrentPosInfected())
+            {
+                Carrier.direction += 90;
+                Grid = Grid.CleanCurrentPos();
+            }
+            else
+            {
+                Carrier.direction -= 90;
+                Grid = Grid.InfectCurrentPos();
+            }
+        }
+
+        private static void UpdateAndTurnSecond()
+        {
+            var currPos = Grid.GetValueOfCurrentPos();
+
+            switch (currPos)
+            {
+                case '.':
+                    Grid = Grid.UpdateCurrentPos('W');
+                    Carrier.direction -= 90;
+                    break;
+                case '#':
+                    Grid = Grid.UpdateCurrentPos('F');
+                    Carrier.direction += 90;
+                    break;
+                case 'W':
+                    Grid = Grid.InfectCurrentPos();
+                    // Don't turn
+                    break;
+                case 'F':
+                    Grid = Grid.CleanCurrentPos();
+                    Carrier.direction += 180;
+                    break;
+                default:
+                    throw new Exception($"Unknown value: {currPos}");
             }
         }
 
@@ -115,21 +165,16 @@ namespace Advent_of_Code_2017.classes
             return list;
         }
 
-        private static void InfectCurrentPos(this IEnumerable<string> grid)
+        private static IEnumerable<string> InfectCurrentPos(this IEnumerable<string> grid)
         {
-            Grid = grid.UpdateCurrentPos('#');
-
-            // if (GridOriginal.IsOutOfBounds() || !GridOriginal.IsCurrentPosInfected())
-            // {
-            //     Carrier.causedInfections += 1;
-            // }
-
             Carrier.causedInfections += 1;
+
+            return grid.UpdateCurrentPos('#');
         }
 
-        private static void CleanCurrentPos(this IEnumerable<string> grid)
+        private static IEnumerable<string> CleanCurrentPos(this IEnumerable<string> grid)
         {
-            Grid = grid.UpdateCurrentPos('.');
+            return grid.UpdateCurrentPos('.');
         }
 
         private static bool IsCurrentPosInfected(this IEnumerable<string> grid)
