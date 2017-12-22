@@ -5,22 +5,21 @@ using System.Linq;
 
 namespace Advent_of_Code_2017.classes
 {
-    public static class Day22
+    public static class Day22Second
     {
         public static void GetResult()
         {
             var data = "..#\r\n#..\r\n...";
-            Debug.Assert(GetNumberOfBurstsThatCauseInfection(7, data) == 5);
-            Debug.Assert(GetNumberOfBurstsThatCauseInfection(70, data) == 41);
-            Debug.Assert(GetNumberOfBurstsThatCauseInfection(10000, data) == 5587);
+            Debug.Assert(GetNumberOfBurstsThatCauseInfection(100, data) == 26);
+            Debug.Assert(GetNumberOfBurstsThatCauseInfection(10000000, data) == 2511944);
 
             data = Helpers.GetDataFromFile("day22.txt");
             var result = "";
 
             var stopWatch = Stopwatch.StartNew();
-            result = GetNumberOfBurstsThatCauseInfection(10000, data).ToString();
+            result = GetNumberOfBurstsThatCauseInfection(10000000, data).ToString();
             stopWatch.Stop();
-            Helpers.DisplayDailyResult("22 - 1", result, stopWatch.ElapsedMilliseconds);
+            Helpers.DisplayDailyResult("22 - 2", result, stopWatch.ElapsedMilliseconds);
         }
 
         private static (int x, int y, int direction, int causedInfections) Carrier;
@@ -43,15 +42,28 @@ namespace Advent_of_Code_2017.classes
 
         private static void PerformBurst()
         {
-            if (Grid.IsCurrentPosInfected())
+            var currPos = Grid.GetValueOfCurrentPos();
+
+            switch (currPos)
             {
-                Carrier.direction += 90;
-                Grid.CleanCurrentPos();
-            }
-            else
-            {
-                Carrier.direction -= 90;
-                Grid.InfectCurrentPos();
+                case '.':
+                    Grid = Grid.UpdateCurrentPos('W');
+                    Carrier.direction -= 90;
+                    break;
+                case '#':
+                    Grid = Grid.UpdateCurrentPos('F');
+                    Carrier.direction += 90;
+                    break;
+                case 'W':
+                    Grid.InfectCurrentPos();
+                    // Don't turn
+                    break;
+                case 'F':
+                    Grid.CleanCurrentPos();
+                    Carrier.direction += 180;
+                    break;
+                default:
+                    throw new Exception($"Unknown value: {currPos}");
             }
 
             if (Carrier.direction < 0)
@@ -118,11 +130,6 @@ namespace Advent_of_Code_2017.classes
         private static void InfectCurrentPos(this IEnumerable<string> grid)
         {
             Grid = grid.UpdateCurrentPos('#');
-
-            // if (GridOriginal.IsOutOfBounds() || !GridOriginal.IsCurrentPosInfected())
-            // {
-            //     Carrier.causedInfections += 1;
-            // }
 
             Carrier.causedInfections += 1;
         }
