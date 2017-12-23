@@ -7,7 +7,6 @@ namespace Advent_of_Code_2017.classes
 {
     public static class Day21
     {
-
         private static string[] Matrix = {
             ".#.",
             "..#",
@@ -79,11 +78,13 @@ namespace Advent_of_Code_2017.classes
                 var r = rule.Split(" => ")[1].Split('/');
 
                 yield return (p.ToKey(), r);
-                yield return (p.FlipVertically().ToKey(), r);
-                yield return (p.FlipHorizontally().ToKey(), r);
                 yield return (p.Rotate90().ToKey(), r);
                 yield return (p.Rotate180().ToKey(), r);
                 yield return (p.Rotate270().ToKey(), r);
+                yield return (p.FlipHorizontally().ToKey(), r);
+                yield return (p.FlipHorizontally().Rotate90().ToKey(), r);
+                yield return (p.FlipHorizontally().Rotate180().ToKey(), r);
+                yield return (p.FlipHorizontally().Rotate270().ToKey(), r);
             }
         }
 
