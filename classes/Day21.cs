@@ -14,47 +14,82 @@ namespace Advent_of_Code_2017.classes
             "###"
         };
 
+        private static string TestRules = 
+            "../.# => ##./#../...\r\n.#./..#/### => #..#/..../..../#..#";
+
         public static void GetResult()
         {
+            Rules = GetRules(TestRules);
             Debug.Assert(GetLitPixelsAfterNIterations(2) == 12);
 
             var result = "";
 
             var stopWatch = Stopwatch.StartNew();
-            //result = GetNumberOfBurstsThatCauseInfection(10000, data).ToString();
+            var data = Helpers.GetDataFromFile("day21.txt");
+            Rules = GetRules(data);
+            result = GetLitPixelsAfterNIterations(5).ToString();
             stopWatch.Stop();
             Helpers.DisplayDailyResult("22 - 1", result, stopWatch.ElapsedMilliseconds);
-
         }
 
-        private static IEnumerable<(IEnumerable<string> pattern, IEnumerable<string> rule)> Rules = GetRules();
+        private static IEnumerable<(string pattern, IEnumerable<string> rule)> Rules;
 
         private static int GetLitPixelsAfterNIterations(int iterations)
         {
+            var result = Matrix.ToList();
+
             while (iterations-- > 0)
             {
-                
+                var size = result.Count();
+                var steps = (size % 2 == 0) ? 2 : 3;
+                var tempResult = new List<string>();
+
+                for (int i = 0; i < size; i += steps)
+                {
+                    // https://msdn.microsoft.com/library/bb348899(v=vs.110).aspx
+                    var temp = Enumerable.Repeat(string.Empty, steps + 1);
+
+                    for (int j = 0; j < size; j += steps)
+                    {
+                        var square = result.Skip(i).Take(steps).Select(x => x.Substring(i, steps));
+                        var rule = Rules.GetRule(square.ToKey()).ToList();
+
+                        temp = temp.Zip(rule, (a, b) => $"{a}{b}").ToList();
+                    }
+
+                    tempResult.AddRange(temp);
+                } 
+
+                result = tempResult;
             }
 
-            return string.Join("", Matrix).Count(c => c == '#');
+            return string.Join("", result).Count(c => c == '#');
         }
 
-        private static IEnumerable<(IEnumerable<string> pattern, IEnumerable<string> rule)> GetRules()
+        private static IEnumerable<string> GetRule(this IEnumerable<(string pattern, IEnumerable<string> rule)> rules, string key)
         {
-            var rules = Helpers.GetDataFromFile("day21.txt");
+            return rules.First(x => x.pattern == key).rule;
+        }
 
+        private static IEnumerable<(string pattern, IEnumerable<string> rule)> GetRules(string rules)
+        {
             foreach (var rule in rules.Split("\r\n"))
             {
                 var p = rule.Split(" => ")[0].Split('/');
                 var r = rule.Split(" => ")[1].Split('/');
 
-                yield return (p, r);
-                yield return (p.FlipVertically(), r);
-                yield return (p.FlipHorizontally(), r);
-                yield return (p.Rotate90(), r);
-                yield return (p.Rotate180(), r);
-                yield return (p.Rotate270(), r);
+                yield return (p.ToKey(), r);
+                yield return (p.FlipVertically().ToKey(), r);
+                yield return (p.FlipHorizontally().ToKey(), r);
+                yield return (p.Rotate90().ToKey(), r);
+                yield return (p.Rotate180().ToKey(), r);
+                yield return (p.Rotate270().ToKey(), r);
             }
+        }
+
+        private static string ToKey(this IEnumerable<string> rows)
+        {
+            return string.Join("/", rows);
         }
 
         private static IEnumerable<string> FlipHorizontally(this IEnumerable<string> rows)
