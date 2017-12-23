@@ -28,7 +28,12 @@ namespace Advent_of_Code_2017.classes
             Rules = GetRules(data);
             result = GetLitPixelsAfterNIterations(5).ToString();
             stopWatch.Stop();
-            Helpers.DisplayDailyResult("22 - 1", result, stopWatch.ElapsedMilliseconds);
+            Helpers.DisplayDailyResult("21 - 1", result, stopWatch.ElapsedMilliseconds);
+
+            stopWatch = Stopwatch.StartNew();
+            result = GetLitPixelsAfterNIterations(18).ToString();
+            stopWatch.Stop();
+            Helpers.DisplayDailyResult("21 - 2", result, stopWatch.ElapsedMilliseconds);
         }
 
         private static IEnumerable<(string pattern, IEnumerable<string> rule)> Rules;
@@ -50,7 +55,7 @@ namespace Advent_of_Code_2017.classes
 
                     for (int j = 0; j < size; j += steps)
                     {
-                        var square = result.Skip(i).Take(steps).Select(x => x.Substring(i, steps));
+                        var square = result.Skip(i).Take(steps).Select(x => x.Substring(j, steps));
                         var rule = Rules.GetRule(square.ToKey()).ToList();
 
                         temp = temp.Zip(rule, (a, b) => $"{a}{b}").ToList();
