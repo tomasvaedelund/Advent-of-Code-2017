@@ -45,6 +45,8 @@ namespace Advent_of_Code_2017.classes
                 var value = (line.Length > 2) ? line[2] : string.Empty;
 
                 Pos += ExecuteCommand(command, register, value);
+
+                Console.WriteLine(Thread.ToDebugString() + "Pos: " + Pos);
             }
 
             return GetRegisterValue("h");
@@ -94,6 +96,11 @@ namespace Advent_of_Code_2017.classes
             }
 
             return GetRegisterValue(register);
+        }
+
+        public static string ToDebugString<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
+        {
+            return "{" + string.Join(",", dictionary.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";
         }
     }
 }
