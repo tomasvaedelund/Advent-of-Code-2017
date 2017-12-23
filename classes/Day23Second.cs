@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Advent_of_Code_2017.classes
 {
-    public static class Day23
+    public static class Day23Second
     {
         public static void GetResult()
         {
@@ -18,14 +18,13 @@ namespace Advent_of_Code_2017.classes
 
         private static (Dictionary<char, long> programs, int pos) Thread;
         private static List<string[]> Commands = new List<string[]>();
-        private static int Result = 0;
-        private static int GetResult(string data)
+        private static long GetResult(string data)
         {
             Commands = data.Split("\r\n").Select(x => x.Split(' ').ToArray()).ToList();
 
             Thread = (new Dictionary<char, long>()
                 {
-                    {'a', 0 },
+                    {'a', 1 },
                     {'b', 0 },
                     {'c', 0 },
                     {'d', 0 },
@@ -52,7 +51,7 @@ namespace Advent_of_Code_2017.classes
                 Thread = (Thread.programs, Thread.pos + newPos);
             }
 
-            return Result;
+            return GetRegisterValue('h');
         }
 
         private static bool IsDone(int currThreadId)
@@ -80,8 +79,6 @@ namespace Advent_of_Code_2017.classes
                     newValue = checked(GetValue(register) * value);
 
                     SetValueInTablet(register, newValue);
-
-                    Result += 1;
 
                     return 1;
                 case "jnz":

@@ -60,6 +60,7 @@ namespace AoC2017
             // Day22.GetResult();
             
             Day23.GetResult();
+            Day23Second.GetResult();
         }
 
         private static void displayResult(string title, string result, string timeElapsed)
