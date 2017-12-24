@@ -19,6 +19,8 @@ namespace Advent_of_Code_2017.classes
         private static Dictionary<string, long> Thread;
         private static int Pos;
         private static List<string[]> Commands = new List<string[]>();
+        private static List<string> CommandsExecuted = new List<string>();
+        private static List<string> CommandsResult = new List<string>();
         private static long GetResult(string data)
         {
             Commands = data.Split("\r\n").Select(x => x.Split(' ').ToArray()).ToList();
@@ -37,16 +39,28 @@ namespace Advent_of_Code_2017.classes
 
             Pos = 0;
 
+            var counter = 0;
             while (!IsDone(0))
             {
                 var line = Commands.ElementAt(Pos);
                 var command = line[0];
                 var register = line[1];
-                var value = (line.Length > 2) ? line[2] : string.Empty;
+                var value = line[2];
 
                 Pos += ExecuteCommand(command, register, value);
 
-                Console.WriteLine(Thread.ToDebugString() + "Pos: " + Pos);
+                CommandsExecuted.Add($"{command} {register} {value}");
+                CommandsResult.Add($"{Thread.ToDebugString()} - Pos: {Pos}");
+
+                Console.WriteLine(CommandsExecuted.ElementAt(counter));
+                Console.WriteLine(CommandsResult.ElementAt(counter));
+
+                counter++;
+
+                if (counter == 100)
+                {
+                    
+                }
             }
 
             return GetRegisterValue("h");
@@ -100,7 +114,7 @@ namespace Advent_of_Code_2017.classes
 
         public static string ToDebugString<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
-            return "{" + string.Join(",", dictionary.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";
+            return "{ " + string.Join(", ", dictionary.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + " }";
         }
     }
 }
