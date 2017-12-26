@@ -14,6 +14,26 @@ namespace Advent_of_Code_2017.classes
             var stopWatch = Stopwatch.StartNew();
             result = GetResult(data).ToString();
             Helpers.DisplayDailyResult("23 - 1", result, stopWatch.ElapsedMilliseconds);
+
+            stopWatch = Stopwatch.StartNew();
+            result = GetResultSecond().ToString();
+            Helpers.DisplayDailyResult("23 - 2", result, stopWatch.ElapsedMilliseconds);
+
+        }
+
+        private static int GetResultSecond()
+        {
+            var result = 0;
+
+            for (int b = 108100; b <= 125100; b += 17)
+            {
+                if (!b.IsPrime())
+                {
+                    result += 1;
+                }
+            }
+
+            return result;
         }
 
         private static Dictionary<string, long> Thread;
@@ -97,6 +117,37 @@ namespace Advent_of_Code_2017.classes
             }
 
             return GetRegisterValue(register);
+        }
+
+        private static bool IsPrime(this int candidate)
+        {
+            if (candidate <= 1)
+            {
+                return false;
+            }
+
+            if (candidate == 3)
+            {
+                return true;
+            }
+
+            if (candidate % 2 == 0 || candidate % 3 == 0)
+            {
+                return false;
+            }
+
+            var i = 5;
+            while (i * i <= candidate)
+            {
+                if (candidate % i == 0 || candidate % (i + 2) == 0)
+                {
+                    return false;
+                }
+
+                i += 6;
+            }
+
+            return true;
         }
     }
 }
